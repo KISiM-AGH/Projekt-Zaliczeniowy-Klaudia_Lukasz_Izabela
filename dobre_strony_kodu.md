@@ -24,3 +24,14 @@
 
    - Dowody zdarzeń i zgodność z regulacjami: Rejestracja aktywności serwera dostarcza obiektywnych i wiarygodnych dowodów zdarzeń, co może być istotne w kontekście audytów bezpieczeństwa, analizy incydentów czy zgodności z przepisami prawnymi.
 
+3. Express.json() i Express.urlencoded():
+
+   Obsługa parsowania JSON i danych z formularzy: Ustawienia express.json() i express.urlencoded() umożliwiają aplikacji obsługę danych w formacie JSON oraz danych przesyłanych za pomocą formularzy.
+
+   Dla czego jest to ważne:
+
+   - Zabezpieczenia przed atakami typu Injection: Parsowanie danych wejściowych jest kluczowe w zapobieganiu atakom typu Injection, takim jak SQL Injection czy Cross-Site Scripting (XSS). Używając express.json(), aplikacja jest w stanie skutecznie przetwarzać dane w formacie JSON, eliminując potencjalne luki bezpieczeństwa związane z manipulacją danymi.
+
+   - Zapobieganie błędom związanym z przekraczaniem limitów danych: Ustawienie express.urlencoded({ extended: false }) pomaga w kontrolowaniu przekraczania limitów danych przesyłanych przez formularze. Pozwala to na uniknięcie błędów związanych z przekroczeniem limitów danych, co może prowadzić do problemów z wydajnością i bezpieczeństwem.
+   
+   - Ułatwienie pracy z danymi w kontrolerach: Przetwarzanie danych wejściowych w odpowiednich formatach ułatwia pracę z nimi w kontrolerach i pozwala na skupienie się na logice biznesowej, jednocześnie minimalizując ryzyko ataków związanych z manipulacją danymi.
