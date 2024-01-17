@@ -4,15 +4,13 @@
 Wysoki
 
 ### opis:
-SQL Injection to atak, który pozwala  użytkownikowi wstrzykiwać złośliwe zapytania SQL do kodu aplikacji, co może prowadzić do nieautoryzowanego dostępu do bazy danych, modyfikacji danych lub usunięcia danych. W pliku `ResultsDAO.java` istnieje potencjalne ryzyko SQL Injection związane z konkatenacją wartości `marathonId` bez odpowiedniej ochrony.
+SQL Injection to atak, który pozwala  użytkownikowi wstrzykiwać złośliwe zapytania SQL do kodu aplikacji, co może prowadzić do nieautoryzowanego dostępu do bazy danych, modyfikacji danych lub usunięcia danych.
 
 ### Szczeguły techniczne:
 W pliku `ResultsDAO.java`, metoda `loadResults` używa konkatenacji napisów do budowania zapytania SQL. Wartość `marathonId` jest włączana bezpośrednio do zapytania, co umożliwia złośliwemu użytkownikowi wprowadzenie złośliwych danych.
 
 ### Lokalizacja:
-Plik:
 Marathon/src/main/java/demo/dao/ResultsDAO.java
-[link](https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/dao/ResultsDAO.java)
 
 #### Dodatkowa lokalizacja
 
