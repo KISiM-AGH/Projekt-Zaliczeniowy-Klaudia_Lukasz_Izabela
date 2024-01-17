@@ -1,13 +1,10 @@
-## A5: Security Misconfiguration
+## Nieprawidłowa Konfiguracja Bezpieczeństwa 
 
 ### poziom ryzyka:
 Średni
 
 ### opis:
- Brak sprawdzenia, czy użytkownik jest uprawniony do zmiany hasła innego użytkownika.
-
-### Warunki niezbędne do wykorzystania podatności
-Użytkownik próbuje zmienić hasło dla konta, do którego nie ma uprawnień.
+Nieprawidłowa konfiguracja bezpieczeństwa, znana również jako Security Misconfiguration, to podatność wynikająca z niewłaściwego konfigurowania środowiska aplikacji, co może prowadzić do różnych luk w zabezpieczeniach.
 
 ### Szczeguły techniczne
 Brak weryfikacji, czy użytkownik jest właścicielem konta, którego hasło jest zmieniane.
@@ -21,3 +18,5 @@ systemDAO.changePassword(request.getUserPrincipal().getName(), changePasswordFor
 
 ### Rekomendacja
 Dodaj dodatkowe sprawdzenia, aby upewnić się, że użytkownik jest uprawniony do zmiany hasła.
+
+W metodzie changePassword zamiast przechowywać hasło w postaci jawnej, użyj silnego algorytmu haszowania (np. bcrypt, Argon2).
