@@ -12,11 +12,5 @@ W pliku `ResultsDAO.java`, metoda `loadResults` używa konkatenacji napisów do 
 ### Lokalizacja:
 Marathon/src/main/java/demo/dao/ResultsDAO.java
 
-#### Dodatkowa lokalizacja
-
-asd
-ads
-asd
-
 ### Rekomendacja:
 Aby zabezpieczyć kod przed SQL Injection, zaleca się używanie parametryzowanych zapytań SQL przy użyciu przygotowanych instrukcji SQL lub mechanizmów ORM. W przypadku metody loadResults, zamiast konkatenować wartość marathonId bezpośrednio do zapytania, zastosuj parametryzowane zapytanie SQL przy użyciu PreparedStatement. Przeprowadź również odpowiednią walidację danych wejściowych, aby zapobiec manipulacji złośliwymi danymi.
