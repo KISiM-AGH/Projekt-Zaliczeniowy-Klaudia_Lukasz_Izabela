@@ -18,5 +18,3 @@ systemDAO.changePassword(request.getUserPrincipal().getName(), changePasswordFor
 
 ### Rekomendacja
 Dodaj dodatkowe sprawdzenia, aby upewnić się, że użytkownik jest uprawniony do zmiany hasła.
-
-W metodzie changePassword zamiast przechowywać hasło w postaci jawnej, użyj silnego algorytmu haszowania (np. bcrypt, Argon2).
