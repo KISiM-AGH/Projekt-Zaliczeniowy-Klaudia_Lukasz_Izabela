@@ -14,6 +14,7 @@ Brak weryfikacji, czy użytkownik jest właścicielem konta, którego hasło jes
 
 ### Lokalizacja
 https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/ChangePasswordAction.java
+
 connection = DAOUtils.getConnection();
 SystemDAO systemDAO = new SystemDAO(connection);
 systemDAO.changePassword(request.getUserPrincipal().getName(), changePasswordForm.getPassword());
