@@ -16,5 +16,7 @@ MD5 generuje stałą długość skrótu, co sprawia, że atakiujący mogą skons
 vulnerable-JAVA/src/main/java/com/fruit/servlet
 /AdminServlet.java
 
+password=md5.Get_MD5(password);
+
 ### Rekomendacja
 Zastąpienie MD5 bardziej bezpiecznym algorytmem haszującym, na przykład bcrypt.
