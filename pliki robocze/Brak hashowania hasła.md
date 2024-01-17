@@ -1,9 +1,9 @@
 ## 2 Brak zabezpieczenia hasła
 
-### poziom ryzyka:
+### Poziom ryzyka
 Wysoki
 
-### opis:
+### Opis
 W pliku `CreateAccountAction.java` występuje brak haszowania hasła przed zapisaniem go do bazy danych. Brak tej praktyki zwiększa ryzyko bezpieczeństwa, ponieważ hasła są przechowywane w postaci jawnej, co może prowadzić do nieautoryzowanego dostępu do danych użytkowników w przypadku ewentualnego naruszenia bezpieczeństwa bazy danych.
 
 ### Szczegóły techniczne

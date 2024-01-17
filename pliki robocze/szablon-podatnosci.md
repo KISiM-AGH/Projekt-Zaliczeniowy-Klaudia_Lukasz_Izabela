@@ -1,15 +1,15 @@
 ## [Numer podatności (jeśli kilka w pliku)] [Nazwa podatności]
 
-### poziom ryzyka:
+### Poziom ryzyka
 [odpowiedź]
 
-### opis:
+### Opis
 [Opis]
 
 ### Warunki niezbędne do wykorzystania podatności
 [Opis]
 
-### Szczeguły techniczne
+### Szczegóły techniczne
 [Opis]
 
 ### Lokalizacja

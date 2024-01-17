@@ -1,15 +1,15 @@
 ## 1 SQL Injection
 
-### poziom ryzyka:
+### Poziom ryzyka
 Wysoki
 
-### opis:
+### Opis
 SQL Injection to atak, który pozwala  użytkownikowi wstrzykiwać złośliwe zapytania SQL do kodu aplikacji, co może prowadzić do nieautoryzowanego dostępu do bazy danych, modyfikacji danych lub usunięcia danych.
 
-### Szczegóły techniczne:
+### Szczegóły techniczne
 W pliku `ResultsDAO.java`, metoda `loadResults` używa konkatenacji napisów do budowania zapytania SQL. Wartość `marathonId` jest włączana bezpośrednio do zapytania, co umożliwia złośliwemu użytkownikowi wprowadzenie złośliwych danych.
 
-### Lokalizacja:
+### Lokalizacja
 Marathon/src/main/java/demo/dao/ResultsDAO.java
 
 ### Rekomendacja:

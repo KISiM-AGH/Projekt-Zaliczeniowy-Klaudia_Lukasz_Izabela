@@ -1,18 +1,18 @@
 ## IDOR (Insecure Direct Object References)
 
-### Poziom ryzyka:
+### Poziom ryzyka
 Wysoki
 
-### Opis:
+### Opis
 IDOR umożliwia atakującemu obejście mechanizmów kontroli dostępu i uzyskanie nieuprawnionego dostępu do danych lub zasobów poprzez manipulację identyfikatorami obiektów w żądaniach.
 
 ### Warunki niezbędne do wykorzystania podatności:
 Atakujący musi być w stanie manipulować parametrem "runner" w żądaniu HTTP.
 
-### Szczegóły techniczne:
+### Szczegóły techniczne
 W pliku `ShowRunnerAction.java` występuje potencjalna podatność związana z IDOR (Insecure Direct Object References). Identyfikator biegacza (`runnerId`) jest pobierany bezpośrednio z parametru żądania (`request.getParameter("runner")`) i używany do wczytania danych biegacza bez sprawdzania uprawnień dostępu.
 
-### Lokalizacja:
+### Lokalizacja
 src/main/java/demo/action/ShowRunnerAction.java
 
 ```java

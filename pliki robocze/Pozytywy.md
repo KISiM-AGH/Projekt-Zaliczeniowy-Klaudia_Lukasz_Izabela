@@ -2,7 +2,7 @@
 
 W kodzie akcji UpdateRunnerPhotoAction zaimplementowano obsługę przesyłanych plików SVG w celu zwiększenia bezpieczeństwa i zgodności. Poniżej przedstawiono analizę tego punktu z perspektywy bezpieczeństwa:
 
-### Opis:
+### Opis
 W przypadku, gdy przesyłany plik jest w formacie SVG, kod akcji używa biblioteki Batik do jego konwersji na format PNG. To podejście ma na celu zminimalizowanie potencjalnych zagrożeń wynikających z bezpośredniego obsługiwania plików SVG, które mogą zawierać złośliwy kod.
 
 ### Szczegóły techniczne
