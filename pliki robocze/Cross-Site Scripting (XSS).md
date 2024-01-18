@@ -1,9 +1,9 @@
 ## Cross-Site Scripting (XSS)
 
-### poziom ryzyka:
+### Poziom ryzyka
 Wysoki
 
-### opis:
+### Opis
 Cross-Site Scripting (XSS) to atak polegający na umieszczeniu złośliwego kodu JavaScript w treści strony internetowej, który jest później wykonany przez przeglądarkę użytkownika. Atak ten może prowadzić do kradzieży danych sesji, manipulacji treści strony, a nawet przejęcia kontroli nad kontem użytkownika.
 
 ### Szczegóły techniczne

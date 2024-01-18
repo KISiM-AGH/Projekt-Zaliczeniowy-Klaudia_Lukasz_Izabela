@@ -1,9 +1,9 @@
 ##  Brak dodatkowych zabezpieczeń, takich jak sprawdzanie siły hasła
 
-### poziom ryzyka:
+### Poziom ryzyka
 Średni
 
-### Opis:
+### Opis
 W dostarczonym kodzie klasy ChangePasswordForm brak jest logiki sprawdzającej siłę hasła. Nie zostały uwzględnione dodatkowe kryteria, takie jak wymaganie różnych typów znaków (duże litery, małe litery, cyfry, znaki specjalne), co może obniżyć poziom bezpieczeństwa hasła.
 ### Szczegóły techniczne
 Obecna implementacja metody validate sprawdza jedynie, czy hasło i jego potwierdzenie są identyczne i niepuste. Brak jest logiki, która oceniłaby siłę hasła na podstawie różnych kryteriów, co mogłoby ułatwić atakom brutalnej siły lub atakom opartym na słowniku.

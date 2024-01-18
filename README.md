@@ -1,3 +1,3 @@
-# Plik główny zadania
+# Plik główny zadania: [link](Audyt.md)
 
-## Badane Repozytorium
+## Badane Repozytorium: [link](https://github.com/cschneider4711/Marathon)

@@ -1,9 +1,9 @@
 ## Brak walidacji danych wejściowych
 
-### poziom ryzyka:
+### Poziom ryzyka
 Wysoki
 
-### Opis:
+### Opis
 Metoda updateRunner w aplikacji przyjmuje mapę updates jako parametr, a następnie używa jej do aktualizacji obiektu Runner. Brak jakiejkolwiek walidacji i sprawdzania poprawności danych wejściowych może prowadzić do nieprawidłowego zaktualizowania danych biegacza.
 
 ### Szczegóły techniczne
