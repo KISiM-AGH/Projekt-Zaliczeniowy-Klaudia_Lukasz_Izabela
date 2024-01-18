@@ -55,7 +55,7 @@ Aby zabezpieczyć hasła użytkowników, zaleca się stosowanie funkcji skrótu 
 ## 3. Brak Ochrony Przed Atakami CSRF
 
 ### Poziom ryzyka
-Średni
+Wysoki
 
 ### Opis
 Implementacja mechanizmu ochrony przed CSRF (Cross-Site Request Forgery) w ChangePasswordAction ma na celu zapobieganie nieautoryzowanym zmianom hasła przez osoby trzecie. CSRF polega na wykorzystaniu zaufania serwera do autentyczności żądań pochodzących od użytkownika. W przypadku braku odpowiednich środków ochrony, atakujący może zmusić przeglądarkę użytkownika do wykonania niechcianych działań na stronie, na której użytkownik jest zalogowany.
@@ -107,7 +107,10 @@ private static final int MAX_WIDTH = 2000;
 private static final int MAX_HEIGHT = 2000;
 ```
 - W metodzie getProfilePic, przed skalowaniem, można sprawdzić czy żądane wymiary nie przekraczają limitów.
-- Należy upewnić się, że podane wartości width i height są dodatnie i nie przekraczają ustalonych limitów. Możesz użyć Math.min() do automatycznego ograniczenia wartości
+- Należy upewnić się, że podane wartości width i height są dodatnie i nie przekraczają ustalonych limitów. Możesz użyć Math.min() do automatycznego ograniczenia wartości.
+
+
+
 
 ## 5. Brak walidacji danych wejściowych
 
@@ -128,30 +131,32 @@ Aby zabezpieczyć metodę przed atakami polegającymi na manipulacji danymi, zal
 
 
 
-
-## 6. Nieprawidłowa Konfiguracja Bezpieczeństwa 
-
+## 6.  Ataki typu Zip Slip
 ### Poziom ryzyka
-Średni
+Wysoki
 
 ### Opis
-Nieprawidłowa konfiguracja bezpieczeństwa, znana również jako Security Misconfiguration, to podatność wynikająca z niewłaściwego konfigurowania środowiska aplikacji, co może prowadzić do różnych luk w zabezpieczeniach.
+Podatność na ataki typu Zip Slip występuje w funkcji `extractFromZip` klasy `UpdateResultsViaImportAction`. Atak Zip Slip wykorzystuje wady w procesie rozpakowywania plików ZIP, umożliwiając atakującemu umieszczenie plików w lokalizacjach poza oczekiwanym katalogiem docelowym.
 
 ### Szczegóły techniczne
-Brak weryfikacji, czy użytkownik jest właścicielem konta, którego hasło jest zmieniane.
+Funkcja extractFromZip otwiera strumień ZIP i przygotowuje się do rozpakowania pierwszego wpisu bez dokonywania jakiejkolwiek weryfikacji ścieżki pliku. Nie ma żadnych środków zapobiegających rozpakowaniu plików do lokalizacji poza oczekiwanym katalogiem docelowym.
 
 ### Lokalizacja
-https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/ChangePasswordAction.java
+https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/UpdateResultsViaImportAction.java
+
+Metoda extractFromZip w klasie UpdateResultsViaImportAction.
 
 ```java
-connection = DAOUtils.getConnection();
-SystemDAO systemDAO = new SystemDAO(connection);
-systemDAO.changePassword(request.getUserPrincipal().getName(), changePasswordForm.getPassword());
+private InputStream extractFromZip(InputStream inputStream) throws IOException {
+    ZipInputStream zipStream = new ZipInputStream(inputStream);
+    zipStream.getNextEntry();
+    return zipStream;
+}
 ```
 
 ### Rekomendacja
-Dodaj dodatkowe sprawdzenia, aby upewnić się, że użytkownik jest uprawniony do zmiany hasła. Można to osiągnąć poprzez porównanie UserPrincipal z identyfikatorem konta, które ma być zmieniane, i dopiero wtedy wykonać operację zmiany hasła.
-
+- Przed rozpakowaniem każdego pliku z archiwum ZIP, dokładnie sprawdź jego ścieżkę. Upewnij się, że nie zawiera ona wzorców mogących prowadzić do wyjścia poza zamierzony katalog docelowy.
+- Rozważ użycie listy dozwolonych lokalizacji i typów plików, które mogą być rozpakowywane. To pomoże w zapobieganiu umieszczania plików w nieautoryzowanych katalogach i zapewni, że rozpakowywane są tylko pliki oczekiwanego typu.
 
 
 
@@ -223,30 +228,25 @@ Skorzystaj z mechanizmów uwierzytelniania i autoryzacji dostępnych w framework
 
 
 
-## 9. Potencjalne Problemy z Zarządzaniem Wyjątkami
+## 9. Deserializacja Niezaufanych Danych
 
 ### Poziom ryzyka
-Średni
+Wysoki
 
 ### Opis
-Nieodpowiednia obsługa wyjątków może prowadzić do narażenia aplikacji na nieprzewidziane zachowania, niespójność danych oraz może ujawnić wrażliwe informacje o strukturze aplikacji.
+ Metoda `deserializeInput` w klasie `UpdateRunnerAttendancesAction` wykonuje deserializację danych wejściowych zakodowanych w Base64, które mogą być kontrolowane przez użytkownika. To stanowi potencjalne ryzyko umożliwienia wykonania dowolnego, złośliwego kodu na serwerze (ataki typu Remote Code Execution - RCE).
 
 ### Szczegóły techniczne
-W kodzie, rzucanie wyjątku ServletException bez dalszej obsługi lub logowania może nie być wystarczające. Brak szczegółowych informacji o wyjątku i jego kontekście może utrudnić diagnozowanie i rozwiązywanie problemów, a także może ujawnić użytkownikom informacje o wewnętrznej strukturze aplikacji.
+Metoda deserializeInput używa ObjectInputStream do deserializacji danych wejściowych zakodowanych w Base64. Jeśli dane wejściowe zawierają złośliwy kod, ich deserializacja może prowadzić do wykonania tego kodu. Atakujący może wykorzystać tę lukę, aby wykonać dowolne działania w kontekście serwera aplikacji, co może skutkować przejęciem kontroli nad serwerem, kradzieżą danych, uszkodzeniem systemu.
 
 ### Lokalizacja
-https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/DeleteAllResultsAction.java
+https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/UpdateRunnerAttendancesAction.java
 
-```java
-if (!expectedSecret.equals(request.getParameter("secret"))) {
-    throw new ServletException("Missing or wrong secret");
-}
-```
+Metoda deserializeInput w klasie UpdateRunnerAttendancesAction.
 
 ### Rekomendacja
-Upewnij się, że kod zawiera odpowiednią obsługę błędów dla operacji, które mogą zgłosić wyjątki. To pozwoli uniknąć nieoczekiwanych awarii i pomaga w diagnozowaniu problemów. Jeśli różne rodzaje wyjątków wymagają różnych działań naprawczych, rozważ użycie wielu bloków catch zamiast jednego ogólnego bloku. To pozwoli na bardziej precyzyjną obsługę różnych rodzajów wyjątków.
-
-
+- Zmodyfikuj podejście do przetwarzania danych przychodzących od użytkownika. Zamiast używać deserializacji, rozważ wykorzystanie formatów takich jak JSON lub XML, które są bezpieczniejsze i oferują lepszą kontrolę nad przetwarzanymi danymi. W Javie możesz wykorzystać biblioteki takie jak Jackson lub Gson do obsługi JSON.
+- Monitoruj i rejestruj wszystkie operacje deserializacji, szczególnie te, które zakończyły się niepowodzeniem. To może pomóc w wykrywaniu i reagowaniu na podejrzane działania.
 
 
 ## 10. SQL Injection
@@ -269,7 +269,7 @@ Aby zabezpieczyć kod przed SQL Injection, zaleca się używanie parametryzowany
 
 
 
-# elementy pozytywne
+# Pozytywne aspekty aplikacji
 
 ## 1. Przetwarzanie plików SVG:
 
