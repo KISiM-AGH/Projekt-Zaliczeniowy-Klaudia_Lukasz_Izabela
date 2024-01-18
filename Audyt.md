@@ -1,15 +1,53 @@
 # Audyt Aplikacji Marathon
 
+Audyt przeprowadzani: Łukasz Gołojuch, Izabela Bubula, Klaudia Balicka
+Data zakończenia audytu: 18.01.2024r.
+Wersja audytu: 1.0
+
 ## Repozytorium aplikacji
 https://github.com/cschneider4711/Marathon
+
+Sprawdzany commit:
+|Nazwa|Data commitu| SHA|
+|:-:|:-:|:-:|
+|docker scripts|18.06.2023|52ddbdaeead1cbf4b78f42577194f265fddeb93c|
+
+
+## Podsumowanie
+
+W poniższej tabelce przedstawiona jest liczba podatności danego typu, które zostały opisane w tym audycie:
+
+|Wysoki|Średni|Niski|
+|:-:|:-:|:-:|
+|8|2|0|
+
+Podczas zmiany i naprawy aplikacji należy priorytetyzować podatności z wysokim zagrożeniem.
 
 ## Wstęp
 
 Aplikacja Marathon została poddana audytowi w celu identyfikacji potencjalnych zagrożeń bezpieczeństwa. Poniżej przedstawiamy wyniki audytu, wraz z opisem podatności, poziomem ryzyka, lokalizacją w kodzie oraz rekomendacjami dotyczącymi poprawek. Dodatkowo zawarte zostały również pozytywne aspekty kodu.
 
+
+## Poziomy ryzyka:
+
+
+- **wysoki:**
+  **Znaczące zagrożenia:** Istnieją istotne podatności, które mogą prowadzić do poważnych incydentów bezpieczeństwa.
+  **Możliwość wykorzystania przez atakujących:** Istnieje wysokie prawdopodobieństwo, że atakujący skorzystają z podatności w celu uzyskania nieautoryzowanego dostępu lub wykonania szkodliwego kodu.
+  **Wpływ na działalność biznesową:** Ryzyko to może prowadzić do znacznych strat finansowych, utraty reputacji, a nawet przerw w świadczeniu usług.
+- **Średni:**
+  **Istotne podatności, ale z ograniczonym wpływem:** Istnieją podatności, jednak ich potencjalny wpływ na system lub dane jest bardziej ograniczony niż w przypadku wysokiego ryzyka.
+  **Możliwość wykorzystania, ale z mniejszym prawdopodobieństwem:** Atakujący może nadal wykorzystać podatności, ale prawdopodobieństwo sukcesu jest niższe niż w przypadku wysokiego ryzyka.
+  **Wpływ na działalność biznesową:** Ryzyko to może prowadzić do pewnych strat finansowych i problemów operacyjnych, ale skala wpływu jest kontrolowana
+- **Niski:**
+  **Ograniczone podatności:** Istnieje niewiele lub żadne znaczące podatności, które mogłyby być wykorzystane przez atakujących.
+  **Niska możliwość wykorzystania:** Nawet jeśli istnieją podatności, to prawdopodobieństwo ich skutecznego wykorzystania przez potencjalnych atakujących jest minimalne.
+  **Minimalny wpływ na działalność biznesową:** Ryzyko to jest małe, a wpływ na organizację jest zaniedbywalny.
+
 # Podatności
 
 ## 1. Brak dodatkowych zabezpieczeń, takich jak sprawdzanie siły hasła
+Znalazła: Izabela Bubula
 
 ### Poziom ryzyka
 Średni
@@ -28,6 +66,7 @@ Aby zwiększyć poziom bezpieczeństwa, zaleca się dodanie logiki sprawdzające
 
 
 ## 2. Brak zabezpieczenia hasła
+Znalazł: Łukasz Gołojuch
 
 ### Poziom ryzyka
 Wysoki
@@ -53,6 +92,7 @@ Aby zabezpieczyć hasła użytkowników, zaleca się stosowanie funkcji skrótu 
 
 
 ## 3. Brak Ochrony Przed Atakami CSRF
+Znalazła: Klaudia Balicka
 
 ### Poziom ryzyka
 Wysoki
@@ -76,14 +116,15 @@ final String expectedSecret = (String) request.getSession().getAttribute(Session
 
 ### Rekomendacja
 - Zamiast specyficznych komunikatów jak "Missing or wrong secret", użyj bardziej ogólnych komunikatów, takich jak "Nieautoryzowane żądanie", aby nie dawać atakującym dodatkowych wskazówek.
-  
-- Użyj bezpiecznych mechanizmów generowania tokenów, takich jak java.security.SecureRandom. 
-  
+
+- Użyj bezpiecznych mechanizmów generowania tokenów, takich jak java.security.SecureRandom.
+
 - Upewnij się, że tokeny są wystarczająco długie i losowe, aby uniemożliwić ich przewidzenie.
 
 
 
 ## 4. Nieograniczona Skalowalność Obrazów
+Znalazła: Klaudia Balicka
 
 ### Poziom ryzyka
 Średni
@@ -113,6 +154,7 @@ private static final int MAX_HEIGHT = 2000;
 
 
 ## 5. Brak walidacji danych wejściowych
+Znalazła: Izabela Bubula
 
 ### Poziom ryzyka
 Wysoki
@@ -132,6 +174,8 @@ Aby zabezpieczyć metodę przed atakami polegającymi na manipulacji danymi, zal
 
 
 ## 6.  Ataki typu Zip Slip
+Znalazła: Klaudia Balicka
+
 ### Poziom ryzyka
 Wysoki
 
@@ -161,6 +205,7 @@ private InputStream extractFromZip(InputStream inputStream) throws IOException {
 
 
 ## 7. Cross-Site Scripting (XSS)
+Znalazła: Izabela Bubula
 
 ### Poziom ryzyka
 Wysoki
@@ -181,6 +226,7 @@ Filtrowanie danych: Przeprowadź filtrowanie danych wejściowych, usuwając wsze
 
 
 ## 8. IDOR (Insecure Direct Object References)
+Znalazł: Łukasz Gołojuch
 
 ### Poziom ryzyka
 Wysoki
@@ -220,21 +266,22 @@ try {
 Aby zabezpieczyć kod przed potencjalnymi atakami IDOR, zaleca się podjęcie następujących kroków:
 
 - Sprawdzenie Uprawnień:
-Upewnij się, że bieżący użytkownik ma uprawnienia dostępu do danych biegacza przed wczytaniem ich. Można to osiągnąć przez wprowadzenie mechanizmów kontroli dostępu dostępnych w frameworku Struts lub innym używanym frameworku.
+  Upewnij się, że bieżący użytkownik ma uprawnienia dostępu do danych biegacza przed wczytaniem ich. Można to osiągnąć przez wprowadzenie mechanizmów kontroli dostępu dostępnych w frameworku Struts lub innym używanym frameworku.
 
 - Wprowadzenie Mechanizmu Uwierzytelniania i Autoryzacji:
-Skorzystaj z mechanizmów uwierzytelniania i autoryzacji dostępnych w frameworku Struts (lub innym używanym frameworku). Wprowadzenie mechanizmów kontroli dostępu pozwoli na skonfigurowanie, które role użytkowników mają dostęp do konkretnych akcji.
+  Skorzystaj z mechanizmów uwierzytelniania i autoryzacji dostępnych w frameworku Struts (lub innym używanym frameworku). Wprowadzenie mechanizmów kontroli dostępu pozwoli na skonfigurowanie, które role użytkowników mają dostęp do konkretnych akcji.
 
 
 
 
 ## 9. Deserializacja Niezaufanych Danych
+Znalazła: Klaudia Balicka
 
 ### Poziom ryzyka
 Wysoki
 
 ### Opis
- Metoda `deserializeInput` w klasie `UpdateRunnerAttendancesAction` wykonuje deserializację danych wejściowych zakodowanych w Base64, które mogą być kontrolowane przez użytkownika. To stanowi potencjalne ryzyko umożliwienia wykonania dowolnego, złośliwego kodu na serwerze (ataki typu Remote Code Execution - RCE).
+Metoda `deserializeInput` w klasie `UpdateRunnerAttendancesAction` wykonuje deserializację danych wejściowych zakodowanych w Base64, które mogą być kontrolowane przez użytkownika. To stanowi potencjalne ryzyko umożliwienia wykonania dowolnego, złośliwego kodu na serwerze (ataki typu Remote Code Execution - RCE).
 
 ### Szczegóły techniczne
 Metoda deserializeInput używa ObjectInputStream do deserializacji danych wejściowych zakodowanych w Base64. Jeśli dane wejściowe zawierają złośliwy kod, ich deserializacja może prowadzić do wykonania tego kodu. Atakujący może wykorzystać tę lukę, aby wykonać dowolne działania w kontekście serwera aplikacji, co może skutkować przejęciem kontroli nad serwerem, kradzieżą danych, uszkodzeniem systemu.
@@ -250,6 +297,7 @@ Metoda deserializeInput w klasie UpdateRunnerAttendancesAction.
 
 
 ## 10. SQL Injection
+Znalazł: Łukasz Gołojuch
 
 ### Poziom ryzyka
 Wysoki
@@ -265,7 +313,6 @@ Marathon/src/main/java/demo/dao/ResultsDAO.java
 
 ### Rekomendacja:
 Aby zabezpieczyć kod przed SQL Injection, zaleca się używanie parametryzowanych zapytań SQL przy użyciu przygotowanych instrukcji SQL lub mechanizmów ORM. W przypadku metody loadResults, zamiast konkatenować wartość marathonId bezpośrednio do zapytania, zastosuj parametryzowane zapytanie SQL przy użyciu PreparedStatement. Przeprowadź również odpowiednią walidację danych wejściowych, aby zapobiec manipulacji złośliwymi danymi.
-
 
 
 
