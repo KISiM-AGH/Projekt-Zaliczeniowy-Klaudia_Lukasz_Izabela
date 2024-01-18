@@ -55,27 +55,31 @@ Aby zabezpieczyć hasła użytkowników, zaleca się stosowanie funkcji skrótu 
 ## 3. Brak Ochrony Przed Atakami CSRF
 
 ### Poziom ryzyka
-Wysoki
+Średni
 
 ### Opis
-Cross-Site Request Forgery (CSRF) to atak, w którym złośliwy użytkownik może zmusić uprawnionego użytkownika do wykonania niechcianych działań na aplikacji internetowej, na którą jest zalogowany. W przypadku kodu, który usuwa wszystkie wyniki maratonu, brak jest odpowiednich zabezpieczeń przed tym rodzajem ataku.
+Implementacja mechanizmu ochrony przed CSRF (Cross-Site Request Forgery) w ChangePasswordAction ma na celu zapobieganie nieautoryzowanym zmianom hasła przez osoby trzecie. CSRF polega na wykorzystaniu zaufania serwera do autentyczności żądań pochodzących od użytkownika. W przypadku braku odpowiednich środków ochrony, atakujący może zmusić przeglądarkę użytkownika do wykonania niechcianych działań na stronie, na której użytkownik jest zalogowany.
 
 ### Szczegóły techniczne
-W kodzie występuje pole secret, które jest używane do weryfikacji, czy żądanie jest ważne. Jednakże, to pole jest przechowywane w sesji użytkownika i nie jest wymagane w żądaniu w formie parametru. To oznacza, że złośliwy użytkownik może przygotować fałszywe żądanie POST, które zawiera prawidłowy secret, ale nie jest zalogowany. W przypadku zalogowanego użytkownika, który nieświadomie odwiedzi takie żądanie, zostaną usunięte wszystkie wyniki.
+Mechanizm ochrony polega na porównaniu tokena sesji przechowywanego na serwerze (expectedSecret), z tokenem przekazanym w żądaniu `(request.getParameter("secret"))`. Tylko jeśli te dwa tokeny są identyczne, żądanie jest przetwarzane dalej. Token musi być unikalny dla każdej sesji i niemożliwy do przewidzenia przez atakującego.
 
 
 ### Lokalizacja
-https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/DeleteAllResultsAction.java
+https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/ChangePasswordAction.java
 
 ```java
-if (!expectedSecret.equals(request.getParameter("secret"))) {
-    throw new ServletException("Missing or wrong secret");
-}
+final String expectedSecret = (String) request.getSession().getAttribute(SessionListener.SENSITIVE_ACTIONS_TOKEN);
+			if (!expectedSecret.equals(request.getParameter("secret"))) {
+				throw new ServletException("Missing or wrong secret");
+			}
 ```
 
 ### Rekomendacja
-Wprowadź silny mechanizm ochrony przed CSRF, tak jak tokeny CSRF, które są generowane, przechowywane i weryfikowane dla każdego żądania.
-
+- Zamiast specyficznych komunikatów jak "Missing or wrong secret", użyj bardziej ogólnych komunikatów, takich jak "Nieautoryzowane żądanie", aby nie dawać atakującym dodatkowych wskazówek.
+  
+- Użyj bezpiecznych mechanizmów generowania tokenów, takich jak java.security.SecureRandom. 
+  
+- Upewnij się, że tokeny są wystarczająco długie i losowe, aby uniemożliwić ich przewidzenie.
 
 
 
