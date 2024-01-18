@@ -1,8 +1,8 @@
 # Audyt Aplikacji Marathon
 
-Audyt przeprowadzani: Łukasz Gołojuch, Izabela Bubula, Klaudia Balicka
-Data zakończenia audytu: 18.01.2024r.
-Wersja audytu: 1.0
+- Audyt przeprowadzani: Łukasz Gołojuch, Izabela Bubula, Klaudia Balicka
+- Data zakończenia audytu: 18.01.2024r.
+- Wersja audytu: 1.0
 
 ## Repozytorium aplikacji
 https://github.com/cschneider4711/Marathon
@@ -32,17 +32,23 @@ Aplikacja Marathon została poddana audytowi w celu identyfikacji potencjalnych 
 
 
 - **wysoki:**
-  **Znaczące zagrożenia:** Istnieją istotne podatności, które mogą prowadzić do poważnych incydentów bezpieczeństwa.
-  **Możliwość wykorzystania przez atakujących:** Istnieje wysokie prawdopodobieństwo, że atakujący skorzystają z podatności w celu uzyskania nieautoryzowanego dostępu lub wykonania szkodliwego kodu.
-  **Wpływ na działalność biznesową:** Ryzyko to może prowadzić do znacznych strat finansowych, utraty reputacji, a nawet przerw w świadczeniu usług.
+  - **Znaczące zagrożenia:** Istnieją istotne podatności, które mogą prowadzić do poważnych incydentów bezpieczeństwa.
+
+  - **Możliwość wykorzystania przez atakujących:** Istnieje wysokie prawdopodobieństwo, że atakujący skorzystają z podatności w celu uzyskania nieautoryzowanego dostępu lub wykonania szkodliwego kodu.
+
+  - **Wpływ na działalność biznesową:** Ryzyko to może prowadzić do znacznych strat finansowych, utraty reputacji, a nawet przerw w świadczeniu usług.
 - **Średni:**
-  **Istotne podatności, ale z ograniczonym wpływem:** Istnieją podatności, jednak ich potencjalny wpływ na system lub dane jest bardziej ograniczony niż w przypadku wysokiego ryzyka.
-  **Możliwość wykorzystania, ale z mniejszym prawdopodobieństwem:** Atakujący może nadal wykorzystać podatności, ale prawdopodobieństwo sukcesu jest niższe niż w przypadku wysokiego ryzyka.
-  **Wpływ na działalność biznesową:** Ryzyko to może prowadzić do pewnych strat finansowych i problemów operacyjnych, ale skala wpływu jest kontrolowana
+  - **Istotne podatności, ale z ograniczonym wpływem:** Istnieją podatności, jednak ich potencjalny wpływ na system lub dane jest bardziej ograniczony niż w przypadku wysokiego ryzyka.
+
+  - **Możliwość wykorzystania, ale z mniejszym prawdopodobieństwem:** Atakujący może nadal wykorzystać podatności, ale prawdopodobieństwo sukcesu jest niższe niż w przypadku wysokiego ryzyka.
+
+  - **Wpływ na działalność biznesową:** Ryzyko to może prowadzić do pewnych strat finansowych i problemów operacyjnych, ale skala wpływu jest kontrolowana
 - **Niski:**
-  **Ograniczone podatności:** Istnieje niewiele lub żadne znaczące podatności, które mogłyby być wykorzystane przez atakujących.
-  **Niska możliwość wykorzystania:** Nawet jeśli istnieją podatności, to prawdopodobieństwo ich skutecznego wykorzystania przez potencjalnych atakujących jest minimalne.
-  **Minimalny wpływ na działalność biznesową:** Ryzyko to jest małe, a wpływ na organizację jest zaniedbywalny.
+  - **Ograniczone podatności:** Istnieje niewiele lub żadne znaczące podatności, które mogłyby być wykorzystane przez atakujących.
+
+  - **Niska możliwość wykorzystania:** Nawet jeśli istnieją podatności, to prawdopodobieństwo ich skutecznego wykorzystania przez potencjalnych atakujących jest minimalne.
+
+  - **Minimalny wpływ na działalność biznesową:** Ryzyko to jest małe, a wpływ na organizację jest zaniedbywalny.
 
 # Podatności
 
