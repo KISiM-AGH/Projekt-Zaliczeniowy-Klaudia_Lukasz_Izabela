@@ -83,35 +83,31 @@ final String expectedSecret = (String) request.getSession().getAttribute(Session
 
 
 
-## 4. Niewłaściwe Zarządzanie Zasobami
+## 4. Nieograniczona Skalowalność Obrazów
 
 ### Poziom ryzyka
 Średni
 
 ### Opis
-Niewłaściwe zarządzanie połączeniem z bazą danych może prowadzić do wycieków zasobów, które mogą z kolei obciążać serwer bazy danych i powodować problemy z wydajnością lub dostępnością.
+Metoda `getProfilePic` w klasie `MarathonService` pozwala na przeskalowanie obrazów profilowych do dowolnych rozmiarów. Brak ograniczeń w rozmiarach, na które użytkownik może przeskalować obraz, może prowadzić do znacznego zużycia zasobów serwera, szczególnie CPU i pamięci RAM, co stwarza ryzyko ataków typu Denial-of-Service (DoS).
 
 ### Szczegóły techniczne
-Kod używa tradycyjnego trybu "try-finally" do zarządzania połączeniem z bazą danych. W bloku finally, połączenie jest zamykane, ale ta metoda nie gwarantuje zamknięcia zasobu w przypadku wystąpienia wyjątków w bloku try.
+Podatność wynika z faktu, że metoda getProfilePic przyjmuje parametry `width` i `height` i używa ich do skalowania obrazu za pomocą funkcji `originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)`. Przetwarzanie dużych obrazów wymaga znacznych zasobów, a skalowanie do bardzo dużych rozmiarów może prowadzić do przeciążenia serwera.
 
 ### Lokalizacja
-https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/action/ChangePasswordAction.java
+https://github.com/cschneider4711/Marathon/blob/master/src/main/java/demo/service/MarathonService.java
 
-```java
-Connection connection = null;
-try {
-    connection = DAOUtils.getConnection();
-    // ...
-} finally {
-    if (connection != null) connection.close();
-}
-``` 
+Metoda getProfilePic w klasie MarathonService, szczególnie linie kodu odpowiadające za skalowanie obrazu.
 
 ### Rekomendacja
-Użyj konstrukcji try-with-resources do zarządzania połączeniem z bazą danych.Ta zmiana zapewni, że połączenie z bazą danych zostanie prawidłowo zamknięte niezależnie od tego, czy wystąpią wyjątki.
+- Zdefiniuj stałe w Java dla maksymalnych dopuszczalnych rozmiarów obrazów na przykład:
 
-
-
+```java
+private static final int MAX_WIDTH = 2000;
+private static final int MAX_HEIGHT = 2000;
+```
+- W metodzie getProfilePic, przed skalowaniem, można sprawdzić czy żądane wymiary nie przekraczają limitów.
+- Należy upewnić się, że podane wartości width i height są dodatnie i nie przekraczają ustalonych limitów. Możesz użyć Math.min() do automatycznego ograniczenia wartości
 
 ## 5. Brak walidacji danych wejściowych
 
